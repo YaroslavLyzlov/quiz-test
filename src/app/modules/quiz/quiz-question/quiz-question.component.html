@@ -1,0 +1,19 @@
+<form #quizQuestion="ngForm"
+      (ngSubmit)="sendAnswer(quizQuestion)"
+      novalidate>
+  <h3> {{ quizTask.answer.time | secondsToTime}} </h3>
+  <div class="quiz-question__text">
+    <img width="600" height="400" [src]="quizTask.task.image">
+  </div>
+
+  <div class="quiz-question__answer">
+    <input app-input name="answer" [(ngModel)]="answerText" (ngModelChange)="onChangeAnswerText()" required>
+  </div>
+
+  <button
+    [disabled]="!quizQuestion.form.valid"
+    appButton
+    class="quiz-question__send-answer">
+    Отправить
+  </button>
+</form>

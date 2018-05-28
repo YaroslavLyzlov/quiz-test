@@ -1,0 +1,13 @@
+<div>
+  <button [disabled]="taskPaginator.isDisabledPrevShow() || isRequest" (click)="taskPaginator.prev()" app-button>Предыдущий вопрос</button>
+</div>
+<div>
+  <app-quiz-question
+    *ngIf="taskPaginator.currentItem && !isRequest"
+    [quizTask]="taskPaginator.currentItem"
+    (onSendAnswer)="onSendAnswer($event)">
+  </app-quiz-question>
+</div>
+<div>
+  <button [disabled]="taskPaginator.isDisabledNextShow() || isRequest" (click)="taskPaginator.next()" app-button>Следующий вопрос</button>
+</div>
