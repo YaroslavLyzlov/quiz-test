@@ -8,7 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { QuizApiModule } from './quiz-api/quiz-api.module';
 import { QuizRoutingModule } from './quiz-routing.module';
 import { QuizResultComponent } from './quiz-result/quiz-result.component';
-import { QuizStorageService } from './services/quiz-data-handle.service';
+import { QuizStorageService } from './services/quiz-storage.service';
 
 @NgModule({
   imports: [

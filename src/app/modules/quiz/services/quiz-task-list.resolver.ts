@@ -1,4 +1,4 @@
-import { QuizStorageService } from './quiz-data-handle.service';
+import { QuizStorageService } from './quiz-storage.service';
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from '@angular/router';
 import { QuizTask } from '../models';

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { QuizResult } from '../models';
+import { QuizStorageService } from '../services/quiz-storage.service';
 
 @Component({
   selector: 'app-quiz-result',
@@ -10,7 +11,8 @@ import { QuizResult } from '../models';
 export class QuizResultComponent implements OnInit {
   result: QuizResult;
   constructor(private activatedRoute: ActivatedRoute,
-              private router: Router) {
+              private router: Router,
+              private quizStorageService: QuizStorageService) {
   }
 
   ngOnInit(): void {
@@ -22,10 +24,8 @@ export class QuizResultComponent implements OnInit {
   }
 
   tryAgainQuiz(): void {
-    /**
-     * @description Тут вместо clear запрос на бэк какой-то, конечно :)
-     */
-    localStorage.clear();
-    this.router.navigate(['quiz', 'question']);
+    this.quizStorageService.tryAgainQuiz().subscribe(
+      () => this.router.navigate(['quiz', 'question'])
+    );
   }
 }

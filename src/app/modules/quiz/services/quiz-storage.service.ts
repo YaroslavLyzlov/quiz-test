@@ -4,7 +4,10 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { TaskResponseModel } from '../quiz-api/case/models/task-response.model';
 import { Answer, QuizResult, QuizTask } from '../models';
-import { GetAnswerListCase, GetCurrentTaskIdCase, GetTaskListCase, SaveAnswerCase, SaveCurrentTaskIdCase } from '../quiz-api/case';
+import {
+  GetAnswerListCase, GetCurrentTaskIdCase, GetTaskListCase, SaveAnswerCase, SaveCurrentTaskIdCase,
+  TryAgainQuizCase
+} from '../quiz-api/case';
 
 
 
@@ -14,11 +17,12 @@ export class QuizStorageService {
               private getAnswerListCase: GetAnswerListCase,
               private saveAnswerCase: SaveAnswerCase,
               private getCurrentTaskIdCase: GetCurrentTaskIdCase,
-              private saveCurrentTaskIdCase: SaveCurrentTaskIdCase) {
+              private saveCurrentTaskIdCase: SaveCurrentTaskIdCase,
+              private tryAgainQuizCase: TryAgainQuizCase) {
   }
 
   tryAgainQuiz(): Observable<void> {
-
+    return this.tryAgainQuizCase.execute();
   }
 
   saveCurrentTaskId(taskId: string): Observable<void> {

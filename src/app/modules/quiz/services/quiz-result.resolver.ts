@@ -1,5 +1,5 @@
 import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from '@angular/router';
-import { QuizStorageService } from './quiz-data-handle.service';
+import { QuizStorageService } from './quiz-storage.service';
 import { catchError, finalize } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 import { Injectable } from '@angular/core';

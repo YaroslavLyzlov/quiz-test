@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { QuizApiRepository } from './quiz-api.repository';
-import { GetAnswerListCase, GetCurrentTaskIdCase, GetTaskListCase, SaveAnswerCase, SaveCurrentTaskIdCase } from './case';
+import { GetAnswerListCase, GetCurrentTaskIdCase, GetTaskListCase, SaveAnswerCase, SaveCurrentTaskIdCase, TryAgainQuizCase } from './case';
 
 @NgModule({
   providers: [
@@ -9,7 +9,8 @@ import { GetAnswerListCase, GetCurrentTaskIdCase, GetTaskListCase, SaveAnswerCas
     GetAnswerListCase,
     SaveAnswerCase,
     SaveCurrentTaskIdCase,
-    GetCurrentTaskIdCase
+    GetCurrentTaskIdCase,
+    TryAgainQuizCase
   ]
 })
 export class QuizApiModule { }

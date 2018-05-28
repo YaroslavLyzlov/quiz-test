@@ -1,6 +1,6 @@
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { Answer } from '../models';
-import { QuizStorageService } from '../services/quiz-data-handle.service';
+import { QuizStorageService } from '../services/quiz-storage.service';
 import { QuizTask } from '../models';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Carousel } from 'app/modules/shared/carousel';
