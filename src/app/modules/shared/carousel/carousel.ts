@@ -24,9 +24,11 @@ export class Carousel<T> {
       this.currentIndex = 0;
       this.onChangeCurrentItem(this.currentItem);
     } else if (!this.isDisabledNextShow()) {
+      this.currentIndex--;
       this.next();
     } else if (!this.isDisabledPrevShow()) {
       this.prev();
+      this.currentIndex++;
     } else if (this.list.length === 0) {
       emptyListAction();
     }
@@ -34,7 +36,6 @@ export class Carousel<T> {
   }
 
   removeByIndex(index: number): boolean {
-    this.currentIndex--;
     return this.list.splice(index, 1).length > 0;
   }
 

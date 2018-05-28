@@ -30,7 +30,11 @@ const db: DB = JSON.parse(localStorage.getItem('db')) || {
 
 @Injectable()
 export class QuizApiRepository {
-
+  tryAgainQuiz(): Observable<void> {
+    db.answerList.length = 0;
+    localStorage.clear();
+    return of(void 0).pipe(delay(1000));
+  }
   /**
    * @description Имитируем через rxjs асинхронное общение с сервисом
    */

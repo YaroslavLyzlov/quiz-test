@@ -1,14 +1,11 @@
 import { Injectable } from '@angular/core';
-import { GetTaskListCase } from '../quiz-api/case/get-task-list.case';
-import { GetAnswerListCase } from '../quiz-api/case/get-answer-list.case';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { TaskResponseModel } from '../quiz-api/case/models/task-response.model';
-import { Answer, QuizResult, QuizTask, Quiz } from '../models';
-import { SaveAnswerCase } from '../quiz-api/case/save-answer.case';
-import { GetCurrentTaskIdCase } from '../quiz-api/case/get-current-task-id.case';
-import { SaveCurrentTaskIdCase } from '../quiz-api/case/save-current-task-id.case';
+import { Answer, QuizResult, QuizTask } from '../models';
+import { GetAnswerListCase, GetCurrentTaskIdCase, GetTaskListCase, SaveAnswerCase, SaveCurrentTaskIdCase } from '../quiz-api/case';
+
 
 
 @Injectable()
@@ -18,6 +15,10 @@ export class QuizStorageService {
               private saveAnswerCase: SaveAnswerCase,
               private getCurrentTaskIdCase: GetCurrentTaskIdCase,
               private saveCurrentTaskIdCase: SaveCurrentTaskIdCase) {
+  }
+
+  tryAgainQuiz(): Observable<void> {
+
   }
 
   saveCurrentTaskId(taskId: string): Observable<void> {

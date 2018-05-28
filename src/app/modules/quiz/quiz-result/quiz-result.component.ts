@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { QuizResult } from '../models';
 
 @Component({
@@ -9,7 +9,8 @@ import { QuizResult } from '../models';
 })
 export class QuizResultComponent implements OnInit {
   result: QuizResult;
-  constructor(private activatedRoute: ActivatedRoute) {
+  constructor(private activatedRoute: ActivatedRoute,
+              private router: Router) {
   }
 
   ngOnInit(): void {
@@ -20,4 +21,11 @@ export class QuizResultComponent implements OnInit {
     );
   }
 
+  tryAgainQuiz(): void {
+    /**
+     * @description Тут вместо clear запрос на бэк какой-то, конечно :)
+     */
+    localStorage.clear();
+    this.router.navigate(['quiz', 'question']);
+  }
 }

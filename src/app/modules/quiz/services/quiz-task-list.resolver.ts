@@ -26,6 +26,7 @@ export class QuizTaskListResolver implements Resolve<any> {
       }))
       .pipe(catchError(
         error => {
+          console.error(error);
           /**
            * Ловим (ну, условно ловим :)) ошибку, что тест уже пройден, и надо показать результаты
            */

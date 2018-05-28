@@ -1,14 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AppButtonComponent } from './app-button/app-button.component';
-import { AppInputComponent } from './app-input/app-input.component';
-import { SecondsToTimePipe } from './pipes/seconds-to-time.pipe';
+import { SecondsToTimePipe } from './pipes';
 
 @NgModule({
   imports: [
     CommonModule
   ],
-  declarations: [ AppButtonComponent, AppInputComponent, SecondsToTimePipe ],
-  exports: [ AppButtonComponent, AppInputComponent, SecondsToTimePipe ]
+  declarations: [ AppButtonComponent, SecondsToTimePipe ],
+  exports: [ AppButtonComponent, SecondsToTimePipe ]
 })
 export class SharedModule { }

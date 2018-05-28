@@ -13,12 +13,12 @@ export class SecondsToTimePipe implements PipeTransform {
     if (hours < 10) {
       result += `0${hours}:`;
     } else {
-      result += hours;
+      result += `${hours}:`;
     }
     if (minutes < 10) {
       result += `0${minutes}:`;
     } else {
-      result += minutes;
+      result += `${minutes}:`;
     }
     if (seconds < 10) {
       result += `0${seconds}`;
