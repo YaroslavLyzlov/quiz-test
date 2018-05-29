@@ -1,25 +1,24 @@
 export class Answer {
-  _text: string;
   get text(): string {
     return this._text;
   }
-  _time: number = 0;
   get time(): number {
     return this._time;
   }
-  isAnswered: boolean = false;
+  get isAnswered(): boolean {
+    return this._isAnswered;
+  }
   private _timer: number;
   /**
    * @description Аналогично методу fromServer
    */
   static fromServer(model: any): Answer {
-    const answer =  new Answer(model.taskId);
-    answer.setAnswer(model.text);
-    answer.setTime(model.time);
-    answer.isAnswered = model.isAnswered;
-    return answer;
+    return new Answer(model.taskId, model.text, model.time, model.isAnswered);
   }
-  constructor(public taskId: string) {}
+  constructor(public taskId: string,
+              private _text: string = '',
+              private _time: number = 0,
+              private _isAnswered: boolean = false) {}
 
   startTimer(): void {
     this._timer = window.setTimeout(
@@ -40,9 +39,6 @@ export class Answer {
     this._text = text;
   }
 
-  setTime(time: number): void {
-    this._time = time;
-  }
   /**
    * @description Здесь для таких вещей по-хорошему прикрутить какую-нибудь библиотеку
    * У нас используется и нами написана https://github.com/SoEasy/tserialize

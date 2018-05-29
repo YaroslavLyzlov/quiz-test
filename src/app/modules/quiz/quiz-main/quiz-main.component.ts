@@ -25,7 +25,6 @@ export class QuizMainComponent implements OnInit {
       data => {
         const quizState = data.quizState;
         this.currentTaskId = quizState.currentTaskId || quizState.list[0].task.id;
-        console.log(this.currentTaskId);
         const index = quizState.list.findIndex(
           taskItem => taskItem.task.id === this.currentTaskId
         );
@@ -39,6 +38,7 @@ export class QuizMainComponent implements OnInit {
   }
 
   onSendAnswer(answer: Answer): void {
+    this.onSaveAnswer(answer.taskId);
     this.isRequest = true;
     this.quizMainService.saveAnswer(
       answer.toServer()
@@ -74,11 +74,9 @@ export class QuizMainComponent implements OnInit {
     /**
      * @description void 0, чтобы метод вызвался
      */
-    this.quizMainService.saveCurrentTaskId(this.currentTaskId).subscribe(void 0);
-    this.taskPaginator.list.forEach(
-      listItem => this.quizMainService.saveAnswer(listItem.answer.toServer(), true).subscribe(void 0)
-    );
-
-    localStorage.setItem('currentTaskId', this.currentTaskId);
+    // this.quizMainService.saveCurrentTaskId(this.currentTaskId).subscribe(void 0);
+    // this.taskPaginator.list.forEach(
+    //   listItem => this.quizMainService.saveAnswer(listItem.answer.toServer(), true).subscribe(void 0)
+    // );
   }
 }

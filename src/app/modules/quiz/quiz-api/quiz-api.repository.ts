@@ -5,6 +5,8 @@ import { taskList } from './data/task-list';
 import { Answer } from '../models';
 import { delay } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
+import { LocalStorageService } from '../../shared/services/localstorage';
+
 /**
  * @description Данный класс - упрощенная модель класса работы с API
  * У нас в компании мы используем декораторы для удобной работы с данными сервера
@@ -21,19 +23,17 @@ import { of } from 'rxjs/observable/of';
  * логики. Repository создается не на весь проект один, их несколько на разные модули приложения
  * Но в нашем случае конкретно сейчас это отчасти и бэкэнд :)
  */
-interface DB {
-  answerList: Array<Answer>;
-}
-const db: DB = JSON.parse(localStorage.getItem('db')) || {
-  answerList: []
-};
+
+
 
 @Injectable()
 export class QuizApiRepository {
+  private answerList: Array<Answer> = [];
+  constructor(private localStorageService: LocalStorageService) {}
 
   tryAgainQuiz(): Observable<void> {
-    db.answerList.length = 0;
-    localStorage.clear();
+    this.answerList.length = 0;
+    this.localStorageService.clear();
     return of(void 0).pipe(delay(1000));
   }
   /**
@@ -44,12 +44,15 @@ export class QuizApiRepository {
   }
 
   getAnswerList(): Observable<Array<Answer>> {
-    const answerList = db.answerList.map(answerItem => Answer.fromServer(answerItem));
-    return of(answerList).pipe(delay(1000));
+    this.answerList = this.localStorageService.getItem('answerList', (value: Array<Answer>) => {
+      return (value || []).map(Answer.fromServer);
+    });
+    // const answerList = db.answerList.map(answerItem => Answer.fromServer(answerItem));
+    return of(this.answerList).pipe(delay(1000));
   }
 
   saveCurrentTaskId(taskId: string): Observable<void> {
-    localStorage.setItem('currentTaskId', taskId);
+    this.localStorageService.setItem('currentTaskId', taskId);
     return of(void 0).pipe(delay(1000));
   }
 
@@ -72,33 +75,19 @@ export class QuizApiRepository {
    * фронта, делаем такой костылек (хотя все-равно он фактиески идет из бизнес логики, просто иллюзия, что нет :))
    */
   saveAnswer(answer: Answer, isDirty: boolean = false): Observable<void> {
-    const savedAnswer = db.answerList.find(
+    if (!answer.text && !answer.time) {
+      throw new Error('Not valid answer');
+    }
+    const savedAnswer = this.answerList.find(
       answerItem => answerItem.taskId === answer.taskId
     );
 
     if (!savedAnswer) {
-      answer.isAnswered = !isDirty;
-
-      db.answerList.push(answer);
-      console.log(db.answerList);
+      const answerToSave = Object.assign({}, answer, { isAnswered: !isDirty });
+      this.answerList.push(answerToSave);
     }
 
-    if (savedAnswer) {
-      if (!savedAnswer.isAnswered) {
-        Object.assign(
-          savedAnswer,
-          {
-            text: answer.text,
-            time: answer.time,
-            isAnswered: !isDirty
-          }
-        );
-      } else {
-        throw new Error('Already answered');
-      }
-    }
-
-    localStorage.setItem('db', JSON.stringify(db));
+    this.localStorageService.setItem('answerList', JSON.stringify(this.answerList));
     return of(void 0).pipe(delay(1000));
   }
 }

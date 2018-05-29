@@ -7,32 +7,31 @@ export class Carousel<T> {
   }
 
   next(): void {
+    console.log('next', this.currentItem, this.currentIndex, this.list.length);
     this.currentItem = this.list[++this.currentIndex];
     this.onChangeCurrentItem(this.currentItem);
-    console.log('currentIndex', this.currentIndex);
   }
 
   prev(): void {
+    console.log('prev', this.currentItem, this.currentIndex);
     this.currentItem = this.list[--this.currentIndex];
     this.onChangeCurrentItem(this.currentItem);
-    console.log('currentIndex', this.currentIndex);
   }
 
   selectNextAction(emptyListAction: () => void): void {
+    console.log('Before', this.list, this.list.length, this.currentItem);
     if (this.list.length === 1) {
       this.currentItem = this.list[0];
       this.currentIndex = 0;
       this.onChangeCurrentItem(this.currentItem);
     } else if (!this.isDisabledNextShow()) {
-      this.currentIndex--;
       this.next();
     } else if (!this.isDisabledPrevShow()) {
       this.prev();
-      this.currentIndex++;
     } else if (this.list.length === 0) {
       emptyListAction();
     }
-    console.log('currentIndex', this.currentIndex);
+    console.log('After', this.list, this.list.length, this.currentItem);
   }
 
   removeByIndex(index: number): boolean {
@@ -40,7 +39,7 @@ export class Carousel<T> {
   }
 
   isDisabledNextShow(): boolean {
-    return this.currentIndex === this.list.length - 1 || this.list.length <= 1;
+    return this.currentIndex >= this.list.length - 1 || this.list.length <= 1;
   }
 
   isDisabledPrevShow(): boolean {
