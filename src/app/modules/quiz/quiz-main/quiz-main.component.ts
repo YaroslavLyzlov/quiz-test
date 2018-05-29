@@ -68,11 +68,9 @@ export class QuizMainComponent implements OnInit, OnDestroy {
   }
 
   private onSaveAnswer(taskId: string): void {
-    console.log(taskId);
     const quizTaskIndex = this.taskPaginator.list.findIndex(
       quizTaskItem => quizTaskItem.task.id === taskId
     );
-    console.log(quizTaskIndex);
     const removed = this.taskPaginator.removeByIndex(quizTaskIndex);
     if (removed && this.taskPaginator.list.length === 0) {
       this.router.navigate(['quiz', 'result']);

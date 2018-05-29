@@ -88,7 +88,6 @@ export class QuizApiRepository {
     if (!savedAnswer) {
       const answerToSave = Object.assign({}, answer, { isAnswered: !isDirty });
       this.answerList.push(answerToSave);
-      console.log(this.answerList);
     } else {
       Object.assign(savedAnswer, { text: answer.text, time: answer.time, isAnswered: !isDirty });
     }
