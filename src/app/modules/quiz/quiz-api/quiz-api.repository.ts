@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { TaskResponseModel } from './case/models/task-response.model';
+import { Observable, throwError } from 'rxjs';
+import { Task } from '../models/task';
 import { taskList } from './data/task-list';
 import { Answer } from '../models';
 import { delay } from 'rxjs/operators';
@@ -39,16 +39,16 @@ export class QuizApiRepository {
   /**
    * @description Имитируем через rxjs асинхронное общение с сервисом
    */
-  getTaskList(): Observable<Array<TaskResponseModel>> {
+  getTaskList(): Observable<Array<Task>> {
     return of(taskList).pipe(delay(1000));
   }
 
   getAnswerList(): Observable<Array<Answer>> {
     this.answerList = this.localStorageService.getItem('answerList', (value: Array<Answer>) => {
-      return (value || []).map(Answer.fromServer);
+      return (value || []);
     });
     // const answerList = db.answerList.map(answerItem => Answer.fromServer(answerItem));
-    return of(this.answerList).pipe(delay(1000));
+    return of(this.answerList.map(Answer.fromServer)).pipe(delay(1000));
   }
 
   saveCurrentTaskId(taskId: string): Observable<void> {
@@ -61,7 +61,7 @@ export class QuizApiRepository {
      * @description Так как это все-таки логика бэка, тут, в случае если currentTaskId
      * нет, должен возвращаться id первого из списка, не буду хардкодить и обработаю эту логику в компоненте
      */
-    const currentTaskId = localStorage.getItem('currentTaskId');
+    const currentTaskId = this.localStorageService.getItem<string>('currentTaskId', (value) => value && value.toString());
     return of(currentTaskId).pipe(delay(1000));
   }
 
@@ -76,7 +76,10 @@ export class QuizApiRepository {
    */
   saveAnswer(answer: Answer, isDirty: boolean = false): Observable<void> {
     if (!answer.text && !answer.time) {
-      throw new Error('Not valid answer');
+      /**
+       * тут по идеее вернем какую-то ошибку и в будущем обработаем
+       */
+      return throwError('Not valid task').pipe(delay(1000));
     }
     const savedAnswer = this.answerList.find(
       answerItem => answerItem.taskId === answer.taskId
@@ -85,6 +88,9 @@ export class QuizApiRepository {
     if (!savedAnswer) {
       const answerToSave = Object.assign({}, answer, { isAnswered: !isDirty });
       this.answerList.push(answerToSave);
+      console.log(this.answerList);
+    } else {
+      Object.assign(savedAnswer, { text: answer.text, time: answer.time, isAnswered: !isDirty });
     }
 
     this.localStorageService.setItem('answerList', JSON.stringify(this.answerList));

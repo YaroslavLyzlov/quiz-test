@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { QuizApiRepository } from '../quiz-api.repository';
 import { Observable } from 'rxjs';
-import { TaskResponseModel } from './models/task-response.model';
+import { Task } from '../../models/task';
 
 /**
  * @description Case - слой преобразования данных из чистой модели
@@ -20,7 +20,7 @@ export class GetTaskListCase {
 
   constructor(private repository: QuizApiRepository) {}
 
-  execute(): Observable<Array<TaskResponseModel>> {
+  execute(): Observable<Array<Task>> {
     return this.repository.getTaskList();
   }
 }

@@ -1,4 +1,4 @@
-export class TaskResponseModel {
+export class Task {
   id: string;
   image: string;
 }

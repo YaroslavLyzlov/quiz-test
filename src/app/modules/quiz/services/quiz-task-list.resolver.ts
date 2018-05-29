@@ -18,21 +18,23 @@ export class QuizTaskListResolver implements Resolve<any> {
   ): Observable<Array<QuizTask>> {
 
     return forkJoin([this.quizMainService.getQuizTaskList(), this.quizMainService.getTaskId()])
-      .pipe(map(data => {
-        return {
-          list: data[0],
-          currentTaskId: data[1]
-        };
-      }))
-      .pipe(catchError(
-        error => {
-          console.error(error);
-          /**
-           * Ловим (ну, условно ловим :)) ошибку, что тест уже пройден, и надо показать результаты
-           */
-          this.router.navigate(['quiz', 'result']);
-          return of(error);
-        }
-      ));
+      .pipe(
+        map(data => {
+          return {
+            list: data[0],
+            currentTaskId: data[1]
+          };
+        }),
+        catchError(
+          error => {
+            console.error(error);
+            /**
+             * Ловим (ну, условно ловим :)) ошибку, что тест уже пройден, и надо показать результаты
+             */
+            this.router.navigate(['quiz', 'result']);
+            return of(error);
+          }
+        )
+      );
   }
 }

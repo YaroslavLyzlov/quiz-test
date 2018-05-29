@@ -10,7 +10,7 @@ export class LocalStorageService {
     localStorage.setItem(`${this.prefix}${key}`, value);
   }
 
-  getItem<T>(key: string, mapper: (value: any) => T): T {
+  getItem<T>(key: string, mapper?: (value: any) => T): T {
     let value = null;
     try {
       value = JSON.parse(localStorage.getItem(`${this.prefix}${key}`));

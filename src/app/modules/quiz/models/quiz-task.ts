@@ -1,7 +1,7 @@
-import { TaskResponseModel } from '../quiz-api/case/models/task-response.model';
+import { Task } from './task';
 import { Answer } from './answer';
 
 export class QuizTask {
-  constructor(public task: TaskResponseModel,
+  constructor(public task: Task,
               public answer: Answer) {}
 }

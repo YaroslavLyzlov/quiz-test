@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { QuizApiRepository } from '../quiz-api.repository';
 import { Observable } from 'rxjs';
-import { TaskResponseModel } from './models/task-response.model';
+import { Task } from '../../models/task';
 import { Answer } from '../../models';
 
 /**

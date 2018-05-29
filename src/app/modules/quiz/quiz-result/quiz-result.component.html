@@ -1,7 +1,7 @@
 <ul class="quiz-result-list">
   <li *ngFor="let item of result.quizResultList; index as i">
     {{ i + 1 }}
-    <img width="300" height="200" [src]="item.task.image">
+    <img width="300" height="200" [src]="item.task.image" alt="quiz image">
     <div>Ответ: {{ item.answer.text }}</div>
     <div>Затраченное время на вопрос {{ item.answer.time | secondsToTime }}</div>
   </li>

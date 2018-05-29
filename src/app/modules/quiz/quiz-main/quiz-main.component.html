@@ -5,6 +5,8 @@
   <app-quiz-question
     *ngIf="taskPaginator.currentItem && !isRequest"
     [quizTask]="taskPaginator.currentItem"
+    [quizTaskIndex]="taskPaginator.currentIndex"
+    [quizTaskListLength]="taskPaginator.list.length"
     (onSendAnswer)="onSendAnswer($event)">
   </app-quiz-question>
 </div>

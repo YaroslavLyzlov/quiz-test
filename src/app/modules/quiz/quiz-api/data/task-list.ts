@@ -1,6 +1,6 @@
-import { TaskResponseModel } from '../case/models/task-response.model';
+import { Task } from '../../models/task';
 
-export const taskList: Array<TaskResponseModel> = [
+export const taskList: Array<Task> = [
   {
     id: '1',
     image: 'https://dummyimage.com/600x400/000/00ffd5.png',

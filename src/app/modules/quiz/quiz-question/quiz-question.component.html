@@ -1,9 +1,10 @@
 <form #quizQuestion="ngForm"
       (ngSubmit)="sendAnswer(quizQuestion)"
       novalidate>
-  <h3> {{ quizTask.answer.time | secondsToTime}} </h3>
+  <h3> Потраченное время: {{ quizTask.answer.time | secondsToTime}} </h3>
+  <h4> Задание {{ quizTaskIndex + 1 }} из {{ quizTaskListLength }} оставшихся</h4>
   <div class="quiz-question__text">
-    <img width="600" height="400" [src]="quizTask.task.image">
+    <img width="600" height="400" [src]="quizTask.task.image" alt="task image">
   </div>
 
   <div class="quiz-question__answer">

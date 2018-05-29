@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { TaskResponseModel } from '../quiz-api/case/models/task-response.model';
+import { Task } from '../models/task';
 import { Answer, QuizResult, QuizTask } from '../models';
 import {
   GetAnswerListCase, GetCurrentTaskIdCase, GetTaskListCase, SaveAnswerCase, SaveCurrentTaskIdCase,
@@ -38,16 +38,16 @@ export class QuizStorageService {
   }
 
   getQuizTaskList(): Observable<Array<QuizTask>> {
-    return forkJoin<Array<TaskResponseModel>, Array<Answer>>([this.getTaskListCase.execute(), this.getAnswerListCase.execute()])
+    return forkJoin<Array<Task>, Array<Answer>>([this.getTaskListCase.execute(), this.getAnswerListCase.execute()])
       .pipe(map(data => this.handleTaskListWithAnswerList(data)));
   }
 
   getQuizResult(): Observable<QuizResult> {
-    return forkJoin<Array<TaskResponseModel>, Array<Answer>>([this.getTaskListCase.execute(), this.getAnswerListCase.execute()])
+    return forkJoin<Array<Task>, Array<Answer>>([this.getTaskListCase.execute(), this.getAnswerListCase.execute()])
       .pipe(map(data => this.handleQuizTaskResult(data)));
   }
 
-  private handleQuizTaskResult(data: [Array<TaskResponseModel>, Array<Answer>]): QuizResult {
+  private handleQuizTaskResult(data: [Array<Task>, Array<Answer>]): QuizResult {
     const taskList = data[0];
     const answerList = data[1];
     if (taskList.length !== answerList.length) {
@@ -58,7 +58,9 @@ export class QuizStorageService {
         answerItem => taskItem.id === answerItem.taskId
       );
       return new QuizTask(taskItem, answer);
-    });
+    }).sort(
+      (a, b) => +a.task.id - +b.task.id
+    );
 
     const resultTime = answerList.reduce((prev, curr) => {
       prev += curr.time;
@@ -76,7 +78,7 @@ export class QuizStorageService {
    * и хранит модель вопрос и ответов отдельно, приводим для нас в чуть более удобный вид
    * по идее этим должен заниматься бэк для фронта
    */
-  private handleTaskListWithAnswerList(data: [Array<TaskResponseModel>, Array<Answer>]): Array<QuizTask> {
+  private handleTaskListWithAnswerList(data: [Array<Task>, Array<Answer>]): Array<QuizTask> {
     const taskList = data[0];
     const answerList = data[1];
     const taskWithoutAnswer = taskList.filter(
@@ -102,6 +104,8 @@ export class QuizStorageService {
         );
         return new QuizTask(task, answer);
       }
+    ).sort(
+      (a, b) => +a.task.id - +b.task.id
     );
   }
 }

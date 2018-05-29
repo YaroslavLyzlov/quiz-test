@@ -2,7 +2,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 
 const appRoutes: Routes = [
-  { path: '', redirectTo: '/quiz/question', pathMatch: 'full' },
+  { path: '', redirectTo: '/quiz/question', pathMatch: 'full' }
 ];
 
 @NgModule({
