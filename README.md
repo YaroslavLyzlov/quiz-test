@@ -1,27 +1,25 @@
-# Quiz
+## Quiz
+# Небольшое описание
+Приложение представляет из себя 2 основных страницы
+- quiz/question - сам опросник
+- quiz/result - результат опроса
+На первую страницу мы можем попасть только в случае, если опрос еще не закончен
+Если ломимся на question и опрос закончен - попадаем на result
+Если ломимся на result и опрос не закончен - попадаем на question
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.7.4.
-
-## Development server
-
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+Так как не было бэкэнда, но появился маленький бэкэнд на фронте,
+что конечно неправильно и вещи по сохранению состояния должны быть на бэкэнде или быть синхронизированным с ним
+(например, с помощью PouchDb/CouchDb, как один из интересных вариантов)
+Для хранения использовал localStorage, но без модулей и так далее, так как для Angular не нашел быстро хорошего решения (все надо смотрет и отбирать, а времени много не было)
+Без модуля, конечно, выглядит не очень, так как тяжело осуществлять преобразования из одной модели в другую.
+Свои мысли и шаги по решению я описал в комментариях:
+Важные комментарии (которые стоит поглядеть, чтобы понимать мои решения) в файлах:
+answer.ts
+save-answer.case.ts
+quiz-api.repository.ts
+quiz-main.component.ts
+quiz-result.resolver.ts
+quiz-storage.service.ts
+Постарался решение не сильно громоздким (без бэкэнда, конечно, тяжеловато), но и одновременно целостным проетком
+ВОЗМОЖНЫ БАГИ :) Оттестировал со своей стороны, но, как говорится, всякое бывает :)
+Всегда готов к обсуждению и критике.

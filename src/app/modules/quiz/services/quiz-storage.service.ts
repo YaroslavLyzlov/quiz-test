@@ -50,7 +50,10 @@ export class QuizStorageService {
   private handleQuizTaskResult(data: [Array<Task>, Array<Answer>]): QuizResult {
     const taskList = data[0];
     const answerList = data[1];
-    if (taskList.length !== answerList.length) {
+    const answeredComplete = answerList && answerList.every(
+      answerItem => answerItem.isAnswered
+    );
+    if (taskList.length !== answerList.length || !answeredComplete) {
       throw new Error('Not all questions with answers');
     }
     const quizTaskList = taskList.map(taskItem => {

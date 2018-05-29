@@ -19,7 +19,7 @@ export class QuizMainComponent implements OnInit, OnDestroy {
 
   private activatedRouteSub: Subscription;
 
-  constructor(private quizMainService: QuizStorageService,
+  constructor(private quizStorageService: QuizStorageService,
               private router: Router,
               private activatedRoute: ActivatedRoute) {
   }
@@ -50,12 +50,13 @@ export class QuizMainComponent implements OnInit, OnDestroy {
       return;
     }
     this.currentTaskId = item.task.id;
+    this.quizStorageService.saveCurrentTaskId(this.currentTaskId);
     item.answer.startTimer();
   }
 
   onSendAnswer(answer: Answer): void {
     this.isRequest = true;
-    this.quizMainService.saveAnswer(
+    this.quizStorageService.saveAnswer(
       answer.toServer()
     ).pipe(finalize(() => {
       this.isRequest = false;
@@ -85,9 +86,8 @@ export class QuizMainComponent implements OnInit, OnDestroy {
    */
   @HostListener('window:beforeunload')
   onReloadPage(): void {
-    this.quizMainService.saveCurrentTaskId(this.currentTaskId);
     this.taskPaginator.list.forEach(
-      listItem => this.quizMainService.saveAnswer(listItem.answer.toServer(), true)
+      listItem => this.quizStorageService.saveAnswer(listItem.answer.toServer(), true)
     );
   }
 
